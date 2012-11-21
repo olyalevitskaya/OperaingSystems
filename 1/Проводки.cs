@@ -11,39 +11,53 @@
             this.регком = регком;
         }
 
+        public bool ЗАПП_Перерезан { private get; set; }
+
         public bool ЗАПП
         {
-            get { return сигналы.П == 0; }
+            get { return !ЗАПП_Перерезан && сигналы.П == 0; }
         }
+
+        public bool ЗАМ1_Перерезан { private get; set; }
 
         public bool ЗАМ1
         {
-            get { return сигналы.П == 1; }
+            get { return !ЗАМ1_Перерезан && сигналы.П == 1; }
         }
+
+        public bool ЗАМ2_Перерезан { private get; set; }
 
         public bool ЗАМ2
         {
-            get { return сигналы.П != 3; }
+            get { return !ЗАМ2_Перерезан && сигналы.П != 3; }
         }
+
+        public bool ВЗАП1_Перерезан { private get; set; }
 
         public bool ВЗАП1
         {
-            get { return сигналы.П == 3; }
+            get { return !ВЗАП1_Перерезан && сигналы.П == 3; }
         }
+
+        public bool ВЫБ_Перерезан { private get; set; }
 
         public bool ВЫБ
         {
-            get { return сигналы.И; }
+            get { return !ВЫБ_Перерезан && сигналы.И; }
         }
+
+        public bool ЧИСТ_Перерезан { private get; set; }
 
         public bool ЧИСТ
         {
-            get { return !(сигналы.П == 2 || сигналы.П == 3); }
+            get { return !ЧИСТ_Перерезан && !(сигналы.П == 2 || сигналы.П == 3); }
         }
+
+        public bool ПУСК_Перерезан { private get; set; }
 
         public bool ПУСК
         {
-            get { return регком.КОП != "FF"; }
+            get { return !ПУСК_Перерезан && регком.КОП != "FF"; }
         }
     }
 }
