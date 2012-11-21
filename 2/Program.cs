@@ -15,10 +15,7 @@ namespace Errors
             {
                 //Проверяем на существование файла
                 if (!File.Exists(args[i]))
-                {
                     Console.WriteLine("File {0} don't exists", args[i]);
-                }
-                    //Если файл существует
                 else
                 {
                     //пытаемся открыть его
@@ -27,7 +24,7 @@ namespace Errors
                         using (TextReader reader = File.OpenText(args[i]))
                         {
                             string text = reader.ReadLine();
-                            string[] bits = text.Split(new[]{' '}, StringSplitOptions.RemoveEmptyEntries);
+                            string[] bits = text.Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries);
                             int result;
                             foreach (string number in bits)
                             {
@@ -52,19 +49,14 @@ namespace Errors
 
             try
             {
-                using (var outfile = new FileStream(args[args.Length - 1], FileMode.Create))
-                {
-                    using (var w = new StreamWriter(outfile))
+                using (var w = new StreamWriter(args[args.Length - 1]))
+                    foreach (int j in list.OrderBy(l => l).Distinct())
                     {
-                        foreach (int j in list.OrderBy(l => l).Distinct())
-                        {
-                            w.Write(j);
-                            w.Write(" ");
-                        }
+                        w.Write(j);
+                        w.Write(" ");
                     }
-                }
             }
-            catch(Exception)
+            catch (Exception)
             {
                 Console.WriteLine("Can't open file {0} for writing", args[args.Length - 1]);
             }
