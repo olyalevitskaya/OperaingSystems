@@ -15,7 +15,7 @@ namespace Errors
             {
                 //Проверяем на существование файла
                 if (!File.Exists(args[i]))
-                    Console.WriteLine("File {0} don't exists", args[i]);
+                    SafeErrorReport(string.Format("File {0} don't exists", args[i]));
                 else
                 {
                     //пытаемся открыть его
@@ -30,19 +30,25 @@ namespace Errors
                             {
                                 bool x = int.TryParse(number, out result);
                                 if (!x)
-                                {
-                                    Console.WriteLine("Something is wrong in file {0}", args[i]);
-                                }
+                                    SafeErrorReport(string.Format("Something is wrong in file {0}", args[i]));
                                 else
                                 {
-                                    list.Add(result);
+                                    try
+                                    {
+                                        list.Add(result);
+                                    }
+                                    catch (OutOfMemoryException)
+                                    {
+                                        SafeErrorReport("Out of memory!");
+                                        return;
+                                    }
                                 }
                             }
                         }
                     }
                     catch (Exception)
                     {
-                        Console.WriteLine("Can't open file {0}", args[i]);
+                        SafeErrorReport(string.Format("Can't open file {0}", args[i]));
                     }
                 }
             }
@@ -58,7 +64,18 @@ namespace Errors
             }
             catch (Exception)
             {
-                Console.WriteLine("Can't open file {0} for writing", args[args.Length - 1]);
+                SafeErrorReport(string.Format("Can't open file {0} for writing", args[args.Length - 1]));
+            }
+        }
+
+        private static void SafeErrorReport(string message)
+        {
+            try
+            {
+                Console.Out.WriteLine(message);
+            }
+            catch
+            {
             }
         }
     }
