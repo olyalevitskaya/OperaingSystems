@@ -9,3 +9,4 @@ main:
 	$(CC) $(OBJ) -o $(TARGET) $(LDLIBS)
 clean:
 	$(RM) $(TARGET)
+	

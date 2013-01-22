@@ -3,27 +3,28 @@
 #include <pthread.h>
 
 
-int rez = 0;
-int mutex = 0;
-int numofthread = 2;
+volatile int rez = 0;
+volatile int mutex = 0;
+volatile int numofthread = 2;
 
 void* functionInc(void* argument)
 {
     __asm("pusha");
     for (int i = 0; i <= 500; ++i)
     {
-	__asm("pusha");
-    __asm("xorl %ecx, %ecx");
-    __asm("incl %ecx");
-    __asm("wait:");
-    __asm("mov %0, %%ebx" : : "r" (&mutex));
-    __asm("xorl %eax,%eax");
-    __asm("lock; cmpxchgl %ecx, (%ebx)");
-    __asm("jnz wait");
-	__asm("popa");
+	__asm volatile ("pusha");
+    __asm volatile ("xorl %ecx, %ecx");
+    __asm volatile ("incl %ecx");
+    __asm volatile ("wait:");
+    __asm volatile ("mov %0, %%ebx" : : "r" (&mutex));
+    __asm volatile ("xorl %eax,%eax");
+    __asm volatile ("lock; cmpxchgl %ecx, (%ebx)");
+    __asm volatile ("jnz wait");
+	__asm volatile ("popa");
     rez = rez + 1;
-	__asm("pusha");
-    __asm("movl $0, (%0)" : : "r" (&mutex));
+	__asm volatile ("pusha");
+    __asm volatile ("movl $0, (%0)" : : "r" (&mutex));
+	__asm volatile ("popa");
     }
     __asm("popa");
 }
@@ -33,19 +34,20 @@ void* functionDec(void* argument)
     __asm("pusha");
     for (int i = 0; i <= 500; ++i)
     {
-	__asm("pusha");
-    __asm("xorl %ecx, %ecx");
-    __asm("incl %ecx");
-    __asm("wait:");
-    __asm("mov %0, %%ebx" : : "r" (&mutex));
-    __asm("xorl %eax,%eax");
-    __asm("lock; cmpxchgl %ecx, (%ebx)");
-    __asm("jnz wait");
-	__asm("popa");
+	__asm volatile ("pusha");
+    __asm volatile ("xorl %ecx, %ecx");
+    __asm volatile ("incl %ecx");
+    __asm volatile ("wait:");
+    __asm volatile ("mov %0, %%ebx" : : "r" (&mutex));
+    __asm volatile ("xorl %eax,%eax");
+    __asm volatile ("lock; cmpxchgl %ecx, (%ebx)");
+    __asm volatile ("jnz wait");
+	__asm volatile ("popa");
     rez = rez - 1;
-	__asm("pusha");
-    __asm("movl $0, (%0)" : : "r" (&mutex));
-    }
+	__asm volatile ("pusha");
+    __asm volatile ("movl $0, (%0)" : : "r" (&mutex));
+    __asm volatile ("popa");
+	}
     __asm("popa");
 }
 
