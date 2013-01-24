@@ -62,6 +62,6 @@ int main()
     pthread_join(thread[0], NULL);
 	pthread_join(thread[1], NULL);
     
-	if (rez1 != 0){ printf("Something wrong\n"); exit(-1)}
+	if (rez != 0){ printf("Something wrong\n"); exit(-1);}
 	printf("Threads Synchronized!\n");
 }
