@@ -1,13 +1,4 @@
-/1/Machine.suo
-/1/Machine.csproj.user
-/1/Machine.sln.DotSettings.user
-/1/Machine.v11.suo
-/1/bin/
-/1/obj/
-/2/Errors.csproj.user
-/2/Errors.sln.DotSettings.user
-/2/Errors.suo
-/2/bin/
-/2/obj/
-/2/Errors.csproj.DotSettings.user
-/1/Machine.csproj.DotSettings.user
+*.suo
+*.user
+bin/
+obj/
